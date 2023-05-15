@@ -55,13 +55,12 @@ public class APIController {
      }
 
      /**
-      *
       * @param productToAddInfoInputResource
       * @return
       * @throws APIException
       */
      @RequestMapping(value = "/products", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-     public ResponseEntity<Void> post_products(@RequestBody @Valid ProductToAddInfoInputResource productToAddInfoInputResource) throws APIException {
+     public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductToAddInfoInputResource productToAddInfoInputResource) throws APIException {
           LOG.info(RequestMethod.POST + " /api/v1/products");
 
           try {
@@ -85,7 +84,7 @@ public class APIController {
       * @throws APIException
       */
      @RequestMapping(value = "/products/{productId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-     public ResponseEntity<ProductInfoOutputResource> get_products_productid(@PathVariable String productId) throws APIException {
+     public ResponseEntity<ProductInfoOutputResource> listProductInfo(@PathVariable String productId) throws APIException {
           LOG.info(RequestMethod.GET + " /api/v1/products/" + productId);
 
           try {
@@ -103,7 +102,7 @@ public class APIController {
       * @throws APIException
       */
      @RequestMapping(value = "/products", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-     public ResponseEntity<Void> put_products_productid(@RequestBody @Valid UpdateProductInputResource updateProductInputResource) throws APIException {
+     public ResponseEntity<Void> updateProduct(@RequestBody @Valid UpdateProductInputResource updateProductInputResource) throws APIException {
           LOG.info(RequestMethod.PUT + " /api/v1/products/" + updateProductInputResource.getId());
           LOG.info("UpdateProductInputResource:" + updateProductInputResource);
 
@@ -124,7 +123,7 @@ public class APIController {
       * @throws APIException
       */
      @RequestMapping(value = "/products", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-     public ResponseEntity<Void> put_products_productid(@RequestBody @Valid UpdateProductFieldsInputResource updateProductFieldsInputResource) throws APIException {
+     public ResponseEntity<Void> updateProductFields(@RequestBody @Valid UpdateProductFieldsInputResource updateProductFieldsInputResource) throws APIException {
           LOG.info(RequestMethod.PUT + " /api/v1/products/" + updateProductFieldsInputResource.getId());
           LOG.info("UpdateProductFieldsInputResource:" + updateProductFieldsInputResource);
 
@@ -145,7 +144,7 @@ public class APIController {
       * @throws APIException
       */
      @RequestMapping(value = "/products/{productId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-     public ResponseEntity<Void> delete_products_productid(@PathVariable String productId) throws APIException {
+     public ResponseEntity<Void> deleteProduct(@PathVariable String productId) throws APIException {
           LOG.info(RequestMethod.DELETE + " /api/v1/products/" + productId);
 
           try {
