@@ -80,8 +80,8 @@ public class APIController {
      }
 
      /**
-      *
       * @param productId
+      * @return
       * @throws APIException
       */
      @RequestMapping(value = "/products/{productId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -97,7 +97,11 @@ public class APIController {
           return new ResponseEntity<>(new ProductInfoOutputResource("1", "test", Double.parseDouble("1.00")), HttpStatus.OK);
      }
 
-
+     /**
+      * @param updateProductInputResource
+      * @return
+      * @throws APIException
+      */
      @RequestMapping(value = "/products", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<Void> put_products_productid(@RequestBody @Valid UpdateProductInputResource updateProductInputResource) throws APIException {
           LOG.info(RequestMethod.PUT + " /api/v1/products/" + updateProductInputResource.getId());
@@ -114,6 +118,11 @@ public class APIController {
                   .build();
      }
 
+     /**
+      * @param updateProductFieldsInputResource
+      * @return
+      * @throws APIException
+      */
      @RequestMapping(value = "/products", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<Void> put_products_productid(@RequestBody @Valid UpdateProductFieldsInputResource updateProductFieldsInputResource) throws APIException {
           LOG.info(RequestMethod.PUT + " /api/v1/products/" + updateProductFieldsInputResource.getId());
@@ -130,6 +139,11 @@ public class APIController {
                   .build();
      }
 
+     /**
+      * @param productId
+      * @return
+      * @throws APIException
+      */
      @RequestMapping(value = "/products/{productId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<Void> delete_products_productid(@PathVariable String productId) throws APIException {
           LOG.info(RequestMethod.DELETE + " /api/v1/products/" + productId);
