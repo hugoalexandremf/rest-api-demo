@@ -9,8 +9,7 @@ public class ProductToAddInfoInputResource {
      @NotEmpty
      private String name;
      @NotNull
-     @NotEmpty
-     private String value;
+     private Double value;
 
 
      public ProductToAddInfoInputResource() {
@@ -21,7 +20,7 @@ public class ProductToAddInfoInputResource {
           return name;
      }
 
-     public String getValue() {
+     public Double getValue() {
           return value;
      }
 
