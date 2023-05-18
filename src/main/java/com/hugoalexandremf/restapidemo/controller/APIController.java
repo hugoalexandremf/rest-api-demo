@@ -45,11 +45,11 @@ public class APIController {
      public String sigFinalize() throws APIException {
           LOG.debug("/api/v1/sigFinalize");
 
-          try {
+          /*try {
                TimeUnit.SECONDS.sleep(3);
           } catch (InterruptedException e) {
                throw new RuntimeException(e);
-          }
+          }*/
 
           throw new ResourceNotReadyException("", null, 10);
      }
