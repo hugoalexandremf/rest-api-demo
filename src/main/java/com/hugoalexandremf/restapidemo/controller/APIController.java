@@ -84,7 +84,7 @@ public class APIController {
       * @throws APIException
       */
      @RequestMapping(value = "/products/{productId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-     public ResponseEntity<ProductInfoOutputResource> listProductInfo(@PathVariable String productId) throws APIException {
+     public ResponseEntity<ProductInfoOutputResource> getProduct(@PathVariable String productId) throws APIException {
           LOG.info(RequestMethod.GET + " /api/v1/products/" + productId);
 
           try {
@@ -93,7 +93,10 @@ public class APIController {
                throw new RuntimeException(e);
           }
 
-          return new ResponseEntity<>(new ProductInfoOutputResource("1", "test", Double.parseDouble("1.00")), HttpStatus.OK);
+          ProductInfoOutputResource productInfoOutputResource = new ProductInfoOutputResource("1", "test", Double.parseDouble("1.00"));
+          LOG.info(productInfoOutputResource.toString());
+
+          return new ResponseEntity<>(productInfoOutputResource, HttpStatus.OK);
      }
 
      /**
