@@ -1,9 +1,13 @@
 package com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.input;
 
+import jakarta.validation.constraints.NotNull;
+
 public class UpdateProductFieldsInputResource {
 
 
+    @NotNull
      private String id;
+    @NotNull
      private String name;
 
 

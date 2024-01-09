@@ -6,8 +6,11 @@ import com.hugoalexandremf.restapidemo.resource.apiresource.output.MessageErrorR
 import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.input.ProductToAddInfoInputResource;
 import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.input.UpdateProductFieldsInputResource;
 import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.input.UpdateProductInputResource;
+import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.input.leaf.TestSubclass;
 import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.output.InsertProductOutputResource;
+import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.output.ListOutputResource;
 import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.output.ProductInfoOutputResource;
+import com.hugoalexandremf.restapidemo.resource.apiresource.output.apicontroller.output.element.ListElement;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -28,22 +32,22 @@ import java.util.concurrent.TimeUnit;
 public class APIController {
 
 
-     private static final Logger LOG = LoggerFactory.getLogger(APIController.class);
+     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
 
      @RequestMapping(value = "/health", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
      public String health() {
-          LOG.debug("/api/v1/health");
+          logger.debug("/api/v1/health");
 
           String response = "{\"status\":\"ok\"}";
 
-          LOG.debug("Return: " + response);
+          logger.debug("Return: " + response);
           return response;
      }
 
      @RequestMapping(value = "/sigFinalize", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
      public String sigFinalize() throws APIException {
-          LOG.debug("/api/v1/sigFinalize");
+          logger.debug("/api/v1/sigFinalize");
 
           /*try {
                TimeUnit.SECONDS.sleep(3);
@@ -61,7 +65,7 @@ public class APIController {
       */
      @RequestMapping(value = "/products", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductToAddInfoInputResource productToAddInfoInputResource) throws APIException {
-          LOG.info(RequestMethod.POST + " /api/v1/products");
+          logger.info(RequestMethod.POST + " /api/v1/products");
 
           try {
                TimeUnit.SECONDS.sleep(3);
@@ -85,7 +89,7 @@ public class APIController {
       */
      @RequestMapping(value = "/products/{productId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<ProductInfoOutputResource> getProduct(@PathVariable String productId) throws APIException {
-          LOG.info(RequestMethod.GET + " /api/v1/products/" + productId);
+          logger.info(RequestMethod.GET + " /api/v1/products/" + productId);
 
           try {
                TimeUnit.SECONDS.sleep(3);
@@ -94,7 +98,7 @@ public class APIController {
           }
 
           ProductInfoOutputResource productInfoOutputResource = new ProductInfoOutputResource("1", "test", Double.parseDouble("1.00"));
-          LOG.info(productInfoOutputResource.toString());
+          logger.info(productInfoOutputResource.toString());
 
           return new ResponseEntity<>(productInfoOutputResource, HttpStatus.OK);
      }
@@ -106,8 +110,8 @@ public class APIController {
       */
      @RequestMapping(value = "/products", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<Void> updateProduct(@RequestBody @Valid UpdateProductInputResource updateProductInputResource) throws APIException {
-          LOG.info(RequestMethod.PUT + " /api/v1/products/" + updateProductInputResource.getId());
-          LOG.info("UpdateProductInputResource:" + updateProductInputResource);
+          logger.info(RequestMethod.PUT + " /api/v1/products/" + updateProductInputResource.getId());
+          logger.info("UpdateProductInputResource:" + updateProductInputResource);
 
           try {
                TimeUnit.SECONDS.sleep(3);
@@ -127,8 +131,8 @@ public class APIController {
       */
      @RequestMapping(value = "/products", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<Void> updateProductFields(@RequestBody @Valid UpdateProductFieldsInputResource updateProductFieldsInputResource) throws APIException {
-          LOG.info(RequestMethod.PUT + " /api/v1/products/" + updateProductFieldsInputResource.getId());
-          LOG.info("UpdateProductFieldsInputResource:" + updateProductFieldsInputResource);
+          logger.info(RequestMethod.PUT + " /api/v1/products/" + updateProductFieldsInputResource.getId());
+          logger.info("UpdateProductFieldsInputResource:" + updateProductFieldsInputResource);
 
           try {
                TimeUnit.SECONDS.sleep(3);
@@ -148,7 +152,7 @@ public class APIController {
       */
      @RequestMapping(value = "/products/{productId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<Void> deleteProduct(@PathVariable String productId) throws APIException {
-          LOG.info(RequestMethod.DELETE + " /api/v1/products/" + productId);
+          logger.info(RequestMethod.DELETE + " /api/v1/products/" + productId);
 
           try {
                TimeUnit.SECONDS.sleep(3);
@@ -161,6 +165,23 @@ public class APIController {
                   .build();
      }
 
+     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+     public List<ListElement> getList() throws APIException {
+          logger.info(RequestMethod.GET + " /list");
+
+          ListOutputResource listOutputResource = new ListOutputResource(List.of(new ListElement("1"), new ListElement("2")));
+
+          return listOutputResource.getList();
+     }
+
+     @RequestMapping(value = "/populateClassSubClass", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+     public void populateClassSubClass(@RequestBody TestSubclass testSubclass) throws APIException {
+          logger.info("{} - /populateClassSubClass", RequestMethod.GET);
+          logger.info(testSubclass.toString());
+
+          ListOutputResource listOutputResource = new ListOutputResource(List.of(new ListElement("1"), new ListElement("2")));
+     }
+
      /**/
 
      @ApiResponses({
@@ -168,10 +189,10 @@ public class APIController {
                      schema = @Schema(implementation = MessageErrorResource.class))})})
      @RequestMapping(value = "/nop", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
      public void nop() {
-          LOG.info(" - /nop");
+          logger.info(" - /nop");
 
           //NOP
-          LOG.info(" - Return: " + "void");
+          logger.info(" - Return: " + "void");
      }
 
 }
